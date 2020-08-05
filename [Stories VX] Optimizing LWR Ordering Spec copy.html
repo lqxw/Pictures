@@ -1,0 +1,749 @@
+<!doctype html>
+<html><head><title>[Stories VX] Optimizing LWR Ordering Spec copy</title><meta charset="UTF-8"><link href="http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700,700italic|Roboto:400,700,700italic,400italic" rel="stylesheet" type="text/css"><style>/*
+ * Copyright 2014 Quip
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+body {
+    font-size: 15px;
+    color: #333;
+    background: white;
+    padding: 60px 95px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern";
+    font-kerning: normal;
+    -moz-font-feature-settings: "kern";
+    -webkit-font-feature-settings: "kern";
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+th {
+    font-family: Roboto, sans-serif;
+    font-weight: 700;
+    margin: 0;
+    margin-top: 1.25em;
+    margin-bottom: 0.75em;
+}
+
+h1 {
+    font-size: 35px;
+    line-height: 42px;
+}
+
+h1:first-child {
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 18px;
+    line-height: 22px;
+}
+
+h3 {
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.capitalize-h3 h3 {
+    text-transform: uppercase;
+}
+
+/* Body text */
+body,
+p,
+ul,
+ol,
+td {
+    font-family: "Crimson Text", serif;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+blockquote,
+q {
+    display: block;
+    margin: 1em 0;
+    font-style: italic;
+}
+
+blockquote a,
+q a {
+    text-decoration: underline;
+}
+
+blockquote {
+    padding-left: 10px;
+    border-left: 4px solid #a6a6a6;
+}
+
+q {
+    color: #a6a6a6;
+    line-height: 40px;
+    font-size: 24px;
+    text-align: center;
+    quotes: none;
+}
+
+q a {
+    color: #a6a6a6;
+}
+
+code,
+pre {
+    font-family: Consolas, "Liberation Mono", Menlo, "Courier Prime Web",
+        Courier, monospace;
+    background: #f2f2f2;
+}
+
+code {
+    padding: 1px;
+    margin: 0 -1px;
+    border-radius: 3px;
+}
+
+pre {
+    display: block;
+    line-height: 20px;
+    text-shadow: 0 1px white;
+    padding: 5px 5px 5px 30px;
+    white-space: nowrap;
+    position: relative;
+    margin: 1em 0;
+}
+
+pre:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    border-left: solid 1px #dadada;
+}
+
+/* Lists */
+div[data-section-style="5"],
+div[data-section-style="6"],
+div[data-section-style="7"] {
+    margin: 12px 0;
+}
+
+ul {
+    padding: 0 0 0 40px;
+}
+
+ul li {
+    margin-bottom: 0.4em;
+}
+
+/* Bulleted list */
+div[data-section-style="5"] ul {
+    list-style-type: disc;
+}
+div[data-section-style="5"] ul ul {
+    list-style-type: circle;
+}
+div[data-section-style="5"] ul ul ul {
+    list-style-type: square;
+}
+div[data-section-style="5"] ul ul ul ul {
+    list-style-type: disc;
+}
+div[data-section-style="5"] ul ul ul ul ul {
+    list-style-type: circle;
+}
+div[data-section-style="5"] ul ul ul ul ul ul {
+    list-style-type: square;
+}
+
+/* Numbered list */
+div[data-section-style="6"] ul {
+    list-style-type: decimal;
+}
+div[data-section-style="6"] ul ul {
+    list-style-type: lower-alpha;
+}
+div[data-section-style="6"] ul ul ul {
+    list-style-type: lower-roman;
+}
+div[data-section-style="6"] ul ul ul ul {
+    list-style-type: decimal;
+}
+div[data-section-style="6"] ul ul ul ul ul {
+    list-style-type: lower-alpha;
+}
+div[data-section-style="6"] ul ul ul ul ul ul {
+    list-style-type: lower-roman;
+}
+
+/* Checklist */
+div[data-section-style="7"] ul {
+    list-style-type: none;
+}
+
+div[data-section-style="7"] ul li:before {
+    content: "\2610";
+    position: absolute;
+    display: inline;
+    margin-right: 1.2em;
+    margin-left: -1.2em;
+}
+
+div[data-section-style="7"] ul li.parent:before {
+    content: "";
+}
+
+div[data-section-style="7"] ul li.checked {
+    text-decoration: line-through;
+}
+
+div[data-section-style="7"] ul li.checked:before {
+    content: "\2611";
+    text-decoration: none;
+}
+
+/* Tables */
+div[data-section-style="8"] {
+    margin: 12px 0;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: separate;
+    border: solid 1px #bbb;
+    table-layout: fixed;
+    position: relative;
+}
+
+table th,
+table td {
+    padding: 2px 2px 0;
+    min-width: 1.5em;
+    word-wrap: break-word;
+}
+
+table th {
+    border-bottom: 1px solid #c7cbd1;
+    background: #f2f2f2;
+    font-weight: bold;
+    vertical-align: bottom;
+    color: #3a4449;
+    text-align: center;
+}
+
+table td {
+    padding-top: 0;
+    border-left: 1px solid #c7cbd1;
+    border-top: 1px solid #c7cbd1;
+    vertical-align: top;
+}
+
+table td.bold {
+    font-weight: bold;
+}
+
+table td.italic {
+    font-style: italic;
+}
+
+table td.underline {
+    text-decoration: underline;
+}
+
+table td.strikethrough {
+    text-decoration: line-through;
+}
+
+table td.underline.strikethrough {
+    text-decoration: underline line-through;
+}
+
+table td:first-child {
+    border-left: hidden;
+}
+
+table tr:first-child td {
+    border-top: hidden;
+}
+
+/* Images */
+div[data-section-style="11"] {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div[data-section-style="11"][data-section-float="0"] {
+    clear: both;
+    text-align: center;
+}
+
+div[data-section-style="11"][data-section-float="1"] {
+    float: left;
+    clear: left;
+    margin-right: 20px;
+}
+
+div[data-section-style="11"][data-section-float="2"] {
+    float: right;
+    clear: right;
+    margin-left: 20px;
+}
+
+div[data-section-style="11"] img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+div[data-section-style="11"].show-border {
+    outline: 1px solid @standardShadowColor;
+    box-shadow: 0 1px 4px 0 @secondaryShadowColor;
+}
+
+hr {
+    width: 70px;
+    margin: 20px auto;
+}
+
+/* Apps */
+div[data-section-style="19"].placeholder {
+    margin: 0.8em auto;
+    padding: 4px 0;
+    display: block;
+    color: #3d87f5;
+    text-align: center;
+    border: 1px solid rgba(41, 182, 242, 0.2);
+    border-radius: 3px;
+    background: #e9f8fe;
+    font-family: Roboto, sans-serif;
+}
+
+div[data-section-style="19"].first-party-element {
+    margin-bottom: 10px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+div[data-section-style="19"].first-party-element.kanban {
+    background-image: url("https://quip-cdn.com/nK0hSyhsb4jrLIL2s5Ma-g");
+    height: 166px;
+}
+
+div[data-section-style="19"].first-party-element.calendar {
+    background-image: url("https://quip-cdn.com/OYujqLny03RILxcLIiyERg");
+    height: 244px;
+}
+
+div[data-section-style="19"].first-party-element.poll {
+    background-image: url("https://quip-cdn.com/fbIiFrcKGv__4NB7CBfxoA");
+    height: 116px;
+}
+
+div[data-section-style="19"].first-party-element.countdown {
+    background-image: url("https://quip-cdn.com/3bPhykD2dBei9sSjCWteTQ");
+    height: 96px;
+}
+
+div[data-section-style="19"].first-party-element.process_bar {
+    background-image: url("https://quip-cdn.com/ybQlHnHEIIBLog5rZmYs_w");
+    height: 36px;
+}
+
+div[data-section-style="19"].first-party-element.project_tracker {
+    background-image: url("https://quip-cdn.com/OFQU087b4Mxzz1ZaHwtjXA");
+    height: 164px;
+}
+
+div[data-section-style="19"] img {
+    margin: 0.5em;
+}
+
+div[data-section-style="19"] img.masked-image {
+    margin: 0;
+    transform-origin: top left;
+}
+
+div[data-section-style="19"] .image-mask {
+    position: relative;
+    overflow: hidden;
+}
+/*
+ * Copyright 2019 Quip
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
+body {
+    counter-reset: indent0 indent1 indent2 indent3 indent4 indent5 indent6
+        indent7 indent8;
+}
+
+/* Numbered list */
+div[data-section-style="6"] {
+    counter-reset: indent0 indent1 indent2 indent3 indent4 indent5 indent6
+        indent7 indent8;
+}
+div[data-section-style="6"].list-numbering-continue {
+    counter-reset: none;
+}
+div[data-section-style="6"].list-numbering-restart-at {
+    counter-reset: indent0 var(--indent0) indent1 indent2 indent3 indent4
+        indent5 indent6 indent7 indent8;
+}
+div[data-section-style="6"] ul {
+    /* indent0 is not reset since it is shared across the div elements */
+    list-style-type: none !important;
+}
+div[data-section-style="6"] ul ul {
+    counter-reset: indent1;
+}
+div[data-section-style="6"] ul ul ul {
+    counter-reset: indent2;
+}
+div[data-section-style="6"] ul ul ul ul {
+    counter-reset: indent3;
+}
+div[data-section-style="6"] ul ul ul ul ul {
+    counter-reset: indent4;
+}
+div[data-section-style="6"] ul ul ul ul ul ul {
+    counter-reset: indent5;
+}
+div[data-section-style="6"] ul li {
+    counter-increment: indent0;
+}
+div[data-section-style="6"] ul ul li {
+    counter-increment: indent1;
+}
+div[data-section-style="6"] ul ul ul li {
+    counter-increment: indent2;
+}
+div[data-section-style="6"] ul ul ul ul li {
+    counter-increment: indent3;
+}
+div[data-section-style="6"] ul ul ul ul ul li {
+    counter-increment: indent4;
+}
+div[data-section-style="6"] ul ul ul ul ul ul li {
+    counter-increment: indent5;
+}
+div[data-section-style="6"] ul li:before {
+    content: counter(indent0, decimal) ". ";
+}
+div[data-section-style="6"] ul ul li:before {
+    content: counter(indent1, lower-alpha) ". ";
+}
+div[data-section-style="6"] ul ul ul li:before {
+    content: counter(indent2, lower-roman) ". ";
+}
+div[data-section-style="6"] ul ul ul ul li:before {
+    content: counter(indent3, decimal) ". ";
+}
+div[data-section-style="6"] ul ul ul ul ul li:before {
+    content: counter(indent4, lower-alpha) ". ";
+}
+div[data-section-style="6"] ul ul ul ul ul ul li:before {
+    content: counter(indent5, lower-roman) ". ";
+}
+h3 {
+    text-transform: uppercase;
+}
+</style></head><body><h1 id='OEZACAnMfwa'>[Stories VX] Optimizing LWR Ordering Spec copy</h1>
+
+<i>AKA Live, Laugh, Love</i><br/>
+
+<h2 id='OEZACALYeNZ'>TL;DR</h2>
+
+Lightweight reactions are a staple element for user interaction within the Facebook ecosystem.  Particularly, <span style="color:#1c1e21" textcolor="#1c1e21">Lightweight Reactions (LWR) for FB Stories </span><a href="https://fb.workplace.com/groups/158993024716385/permalink/295868457695507/">was launched to 100% in November 2018</a> and have gone through several iteration while aligning closely with the current experience of Newsfeed.<br/>
+
+<br/>
+
+We have recently introduced a new reaction (care) into the LWR ecosystem.   This has shed light on interesting observation across usage patterns and raising questions about (1) the effect of LWR ordering and (2) how aligned the stories UFI should be with NF.<br/>
+
+<br/>
+
+<br/>
+
+<b><span style="color:#1d2129" textcolor="#1d2129">Before &amp; After Introduction of the Care Reaction</span></b><br/>
+
+<div data-section-style='13'><table id='OEZACA39baM' title='Sheet2' style='width: 46.0667em'><tbody><tr id='OEZACAqxSRJ'><td id='s:OEZACAqxSRJ;OEZACA9ihtx' style='' class='bold'>
+
+<br/></td><td id='s:OEZACAqxSRJ;OEZACA6g0fe' style='' class='bold'>Feed (Before)
+
+<br/></td><td id='s:OEZACAqxSRJ;OEZACA30tNv' style='' class='bold'>Stories (Before)
+
+<br/></td><td id='s:OEZACAqxSRJ;OEZACAjqpkM' style='' class='bold'>Feed (<b>After</b>)
+
+<br/></td><td id='s:OEZACAqxSRJ;OEZACA7VyV5' style='' class='bold'>Stories (After)
+
+<br/></td><td id='s:OEZACAqxSRJ;OEZACAwu4e1' style='' class='bold'>Rank (after)
+
+<br/></td></tr><tr id='OEZACAnIZW6'><td id='s:OEZACAnIZW6;OEZACA9ihtx' style='background-color:#CCF6FF;' class='bold'>Like 👍
+
+<br/></td><td id='s:OEZACAnIZW6;OEZACA6g0fe' style='background-color:#CCF6FF;'>72%
+
+<br/></td><td id='s:OEZACAnIZW6;OEZACA30tNv' style=''>18%
+
+<br/></td><td id='s:OEZACAnIZW6;OEZACAjqpkM' style=''>
+
+<br/></td><td id='s:OEZACAnIZW6;OEZACA7VyV5' style=''>23.70%
+
+<br/></td><td id='s:OEZACAnIZW6;OEZACAwu4e1' style=''>2
+
+<br/></td></tr><tr id='OEZACArvEvR'><td id='s:OEZACArvEvR;OEZACA9ihtx' style='background-color:#FFE6E5;' class='bold'>Love ❤️
+
+<br/></td><td id='s:OEZACArvEvR;OEZACA6g0fe' style=''>13%
+
+<br/></td><td id='s:OEZACArvEvR;OEZACA30tNv' style='background-color:#FFE6E5;'>68%
+
+<br/></td><td id='s:OEZACArvEvR;OEZACAjqpkM' style=''>
+
+<br/></td><td id='s:OEZACArvEvR;OEZACA7VyV5' style=''>64.20%
+
+<br/></td><td id='s:OEZACArvEvR;OEZACAwu4e1' style=''>1
+
+<br/></td></tr><tr id='OEZACAfryPY'><td id='s:OEZACAfryPY;OEZACA9ihtx' style='' class='bold'>Care 💗
+
+<br/></td><td id='s:OEZACAfryPY;OEZACA6g0fe' style='text-align: right;'>--
+
+<br/></td><td id='s:OEZACAfryPY;OEZACA30tNv' style='text-align: right;'>--
+
+<br/></td><td id='s:OEZACAfryPY;OEZACAjqpkM' style=''>
+
+<br/></td><td id='s:OEZACAfryPY;OEZACA7VyV5' style=''>3.70%
+
+<br/></td><td id='s:OEZACAfryPY;OEZACAwu4e1' style=''>4
+
+<br/></td></tr><tr id='OEZACAOnwp2'><td id='s:OEZACAOnwp2;OEZACA9ihtx' style='' class='bold'>Haha 😂
+
+<br/></td><td id='s:OEZACAOnwp2;OEZACA6g0fe' style=''>11%
+
+<br/></td><td id='s:OEZACAOnwp2;OEZACA30tNv' style=''>10%
+
+<br/></td><td id='s:OEZACAOnwp2;OEZACAjqpkM' style=''>
+
+<br/></td><td id='s:OEZACAOnwp2;OEZACA7VyV5' style=''>5.40%
+
+<br/></td><td id='s:OEZACAOnwp2;OEZACAwu4e1' style=''>3
+
+<br/></td></tr><tr id='OEZACAcrEvE'><td id='s:OEZACAcrEvE;OEZACA9ihtx' style='' class='bold'>Wow 😮
+
+<br/></td><td id='s:OEZACAcrEvE;OEZACA6g0fe' style=''>1.20%
+
+<br/></td><td id='s:OEZACAcrEvE;OEZACA30tNv' style=''>1.70%
+
+<br/></td><td id='s:OEZACAcrEvE;OEZACAjqpkM' style=''>
+
+<br/></td><td id='s:OEZACAcrEvE;OEZACA7VyV5' style=''>1.50%
+
+<br/></td><td id='s:OEZACAcrEvE;OEZACAwu4e1' style=''>5
+
+<br/></td></tr><tr id='OEZACA4pC1x'><td id='s:OEZACA4pC1x;OEZACA9ihtx' style='' class='bold'>Sad 😥
+
+<br/></td><td id='s:OEZACA4pC1x;OEZACA6g0fe' style=''>2.10%
+
+<br/></td><td id='s:OEZACA4pC1x;OEZACA30tNv' style=''>1.30%
+
+<br/></td><td id='s:OEZACA4pC1x;OEZACAjqpkM' style=''>
+
+<br/></td><td id='s:OEZACA4pC1x;OEZACA7VyV5' style=''>1.10%
+
+<br/></td><td id='s:OEZACA4pC1x;OEZACAwu4e1' style=''>6
+
+<br/></td></tr><tr id='OEZACAYnxTS'><td id='s:OEZACAYnxTS;OEZACA9ihtx' style='' class='bold'>Angry 😡
+
+<br/></td><td id='s:OEZACAYnxTS;OEZACA6g0fe' style=''>0.70%
+
+<br/></td><td id='s:OEZACAYnxTS;OEZACA30tNv' style=''>0.50%
+
+<br/></td><td id='s:OEZACAYnxTS;OEZACAjqpkM' style=''>
+
+<br/></td><td id='s:OEZACAYnxTS;OEZACA7VyV5' style=''>0.30%
+
+<br/></td><td id='s:OEZACAYnxTS;OEZACAwu4e1' style=''>7
+
+<br/></td></tr><tr id='OEZACAHgeFW'><td id='s:OEZACAHgeFW;OEZACA9ihtx' style='' class='bold'>
+
+<br/></td><td id='s:OEZACAHgeFW;OEZACA6g0fe' style=''>
+
+<br/></td><td id='s:OEZACAHgeFW;OEZACA30tNv' style=''>
+
+<br/></td><td id='s:OEZACAHgeFW;OEZACAjqpkM' style=''>
+
+<br/></td><td id='s:OEZACAHgeFW;OEZACA7VyV5' style=''>
+
+<br/></td><td id='s:OEZACAHgeFW;OEZACAwu4e1' style=''>
+
+<br/></td></tr></tbody></table></div>Our observations show that the LWR usage behaviors between NF and Stories differ significantly.  Particularly the  like reaction is used at a much higher rate in NF while the Love reaction is more prominent in Stories.   A similar trend is experienced in IG where heart eyes emoji perform significantly stronger in IG's Quick Replies.  Additionally, the care reaction has had a negative impact on reactions in general.<br/>
+
+<br/>
+
+<h3 id='OEZACABGiLe'>Hypothesis / Test</h3>
+
+We are proposing to test the ordering of lightweight reactions in the UFI.  We would specifically like to test the following<br/>
+
+<div data-section-style='6' class="" style=""><ul id='OEZACAN97hr'><li id='OEZACAS4HGU' class='' value='1'>Shift the Love reaction to the first position 
+
+<br/></li><li id='OEZACAmOKkX' class='parent'>Shift the Care reaction to the X position
+
+<br/></li><ul><li id='OEZACA7nzRX' class=''>proposal: positions 4 and 5
+
+<br/></li></ul></ul></div>The hypothesis is that LWR positioning has a direct impact on usage and positioning should be optimized for the stories product.<br/>
+
+<br/>
+
+<b>Key Questions</b><br/>
+
+<div class="" style="" data-section-style='5'><ul id='OEZACA2rJMc'><li id='OEZACARiuwn' class='' value='1'>Which reaction should be first? Like or Heart?
+
+<br/></li><li id='OEZACAtDXD3' class=''>Do Heart and Care ‘conflict’ with each other?
+
+<br/></li><li id='OEZACAIVAXD' class=''>Does the ordering of ‘hidden’ LWR (4th position onwards) matter?
+
+<br/></li></ul></div><br/>
+
+<br/>
+
+<h2 id='OEZACADbUmS'>Design</h2>
+
+<div data-section-style='11' style='max-width:100%' class='tall'><img src='https://quip.com/blob/OEZAAAkjNAW/k-jpANCIbGaQj7HQczMlog?a=7Op2D8FAmJpl5cBfQ3Z97o22qIxjOlz070U4vgqngb8a' id='OEZACAQTCzZ' alt=''></img></div><b>Key Points and observations </b><br/>
+
+<div class="" style="" data-section-style='5'><ul id='OEZACAngGps'><li id='OEZACAPv19M' class='' value='1'>The current ufi follows the same ordering of Newsfeed
+
+<br/></li><li id='OEZACAyAncY' class=''>LWR are accessed by H-scroll and many reactions are hidden<br>
+
+<br/></li></ul></div><h2 id='OEZACANYZd1'></h2>
+
+<h2 id='OEZACA3dtaX'>Configurations Tests</h2>
+
+<div data-section-style='13'><table id='OEZACASbMqg' title='Sheet5' style='width: 64.7333em'><tbody><tr id='OEZACAhLbbs'><td id='s:OEZACAhLbbs;OEZACASS5sJ' style='background-color:#222222;' class='bold'>Feature
+
+<br/></td><td id='s:OEZACAhLbbs;OEZACA2w829' style='background-color:#222222;' class='bold'>LWR ordering
+
+<br/></td><td id='s:OEZACAhLbbs;OEZACA1WbOL' style='background-color:#222222;' class='bold'>Notes
+
+<br/></td></tr><tr id='OEZACAS8qWE'><td id='s:OEZACAS8qWE;OEZACASS5sJ' style='background-color:#666666;' class='bold'>Test
+
+<br/></td><td id='s:OEZACAS8qWE;OEZACA2w829' style='background-color:#666666;' class='bold'>
+
+<br/></td><td id='s:OEZACAS8qWE;OEZACA1WbOL' style='background-color:#666666;'>
+
+<br/></td></tr><tr id='OEZACAfTOf7'><td id='s:OEZACAfTOf7;OEZACASS5sJ' style='' class='bold'>Heart #1: More Love
+
+<br/></td><td id='s:OEZACAfTOf7;OEZACA2w829' style=''>[love, like, care, haha, wow, sad, angry]
+
+<br/></td><td id='s:OEZACAfTOf7;OEZACA1WbOL' style=''>Increase love reacts
+
+<br/></td></tr><tr id='OEZACAMrxX3'><td id='s:OEZACAMrxX3;OEZACASS5sJ' style='' class='strikethrough'><b>Care #6</b>
+
+<br/></td><td id='s:OEZACAMrxX3;OEZACA2w829' style='' class='strikethrough'>[like, love, haha, wow, sad, care, angry]
+
+<br/></td><td id='s:OEZACAMrxX3;OEZACA1WbOL' style='' class='strikethrough'>Mitigate the effects of the Care reaction by putting it below the fold
+
+<br/></td></tr><tr id='OEZACA0V1a3'><td id='s:OEZACA0V1a3;OEZACASS5sJ' style='' class='bold'>Care in #5: Take Care
+
+<br/></td><td id='s:OEZACA0V1a3;OEZACA2w829' style=''>[like, love, haha, wow, care, sad, angry]
+
+<br/></td><td id='s:OEZACA0V1a3;OEZACA1WbOL' style=''>Mitigate the effects of the Care reaction by putting it below the fold. Matches current usage of the 7 reactions.
+
+<br/></td></tr><tr id='OEZACA9kpWZ'><td id='s:OEZACA9kpWZ;OEZACASS5sJ' style='' class='bold strikethrough'>Heart#1 &amp; Care #6 
+
+<br/></td><td id='s:OEZACA9kpWZ;OEZACA2w829' style='' class='strikethrough'>[love, like, haha, wow, sad, care, angry]
+
+<br/></td><td id='s:OEZACA9kpWZ;OEZACA1WbOL' style='' class='strikethrough'>I don't think this one makes as much sense. 
+
+<br/></td></tr><tr id='OEZACAHLSaC'><td id='s:OEZACAHLSaC;OEZACASS5sJ' style='' class='bold strikethrough'>Heart#1 &amp; Care #5
+
+<br/></td><td id='s:OEZACAHLSaC;OEZACA2w829' style='' class='strikethrough'>[love, like, haha, wow, care, sad, angry]
+
+<br/></td><td id='s:OEZACAHLSaC;OEZACA1WbOL' style='' class='strikethrough'>
+
+<br/></td></tr><tr id='OEZACA4sErQ'><td id='s:OEZACA4sErQ;OEZACASS5sJ' style='background-color:#666666;' class='bold'>Control
+
+<br/></td><td id='s:OEZACA4sErQ;OEZACA2w829' style='background-color:#666666;' class='bold'>
+
+<br/></td><td id='s:OEZACA4sErQ;OEZACA1WbOL' style='background-color:#666666;'>
+
+<br/></td></tr><tr id='OEZACASR5jA'><td id='s:OEZACASR5jA;OEZACASS5sJ' style='' class='bold'>Default Positioning
+
+<br/></td><td id='s:OEZACASR5jA;OEZACA2w829' style=''>[like, love, care, haha, wow, sad, angry]
+
+<br/></td><td id='s:OEZACASR5jA;OEZACA1WbOL' style=''>Current ordering
+
+<br/></td></tr></tbody></table></div><i>*Limit to standard h-scroll experience for now. Don’t need to adjust single entrypoint for reaction on Page Stories. </i><br/>
+
+<h2 id='OEZACAy4g49'>Eng Estimates</h2>
+
+<br/>
+
+<b>Engineers: </b> 1 iOS, 1 Android<br/>
+
+<b>Time: 1 Week / Platform</b><br/>
+
+<b>Scoping:</b><br/>
+
+<div class="" style="" data-section-style='5'><ul id='OEZACA03Ytp'><li id='OEZACAQy3B0' class='parent' value='1'>Android:
+
+<br/></li><ul><li id='OEZACA1udNO' class=''>Reaction ordering for all reactions (except Care) are hardcoded.  <a href="https://www.internalfb.com/intern/diffusion/FBS/browsefile/master/fbandroid/java/com/facebook/audience/storyviewer/util/StoryviewerLightweightReplyUtil.java?lines=45%2C55">code pointer</a>
+
+<br/></li><li id='OEZACAm7tx2' class=''>We must move the Heart Reaction to Mobile config control.  The care reaction is already MC controlled by MC.  Both should should be updated to used the same MC
+
+<br/></li></ul><li id='OEZACAQ2aVN' class='parent'>iOS
+
+<br/></li><ul><li id='OEZACAyQnk5' class=''><control data-remapped="true" id="OEZACAa316u"><a href="https://fb.quip.com/RXaGAB54rgv4">Eng Plan: LWR Ordering - iOS/Android</a></control>
+
+<br/></li></ul></ul></div><br/>
+
+<h2 id='OEZACANG61z'>Open Questions</h2>
+
+<div class="" style="" data-section-style='5'><ul id='OEZACAnhzRh'><li id='OEZACAD2bdb' class='' value='1'>What positions should we test?
+
+<br/></li><li id='OEZACAKXGcl' class=''>Should heart and care change at the same time or separately
+
+<br/></li><li id='OEZACAUkvv4' class=''>Can we include infrastructure for new reaction designs to be included easily?
+
+<br/></li></ul></div><br/>
+
+<br/>
+
+<h2 id='OEZACAIFg1W'>Resources</h2>
+
+<div class="" style="" data-section-style='5'><ul id='OEZACAE9q3v'><li id='OEZACA7oAjy' class='' value='1'><control data-remapped="true" id="OEZACATPRHk"><a href="https://fb.quip.com/ngJMA8BA7JZO">“Care” Reaction - Proposal for Placement in Facebook Stories</a></control>
+
+<br/></li><li id='OEZACAXPaK7' class=''><a href="https://fb.workplace.com/notes/mike-hsu/a-history-of-fb-stories-lightweight-reactions-and-their-value/949260208857960/">https://fb.workplace.com/notes/mike-hsu/a-history-of-fb-stories-lightweight-reactions-and-their-value/949260208857960/</a>
+
+<br/></li><li id='OEZACAuKHok' class=''>Care reaction Engagement: <a href="https://fb.workplace.com/notes/steven-li/care-reaction-update-625/633019600899495/">https://fb.workplace.com/notes/steven-li/care-reaction-update-625/633019600899495/</a>
+
+<br/></li></ul></div><br/>
+
+<br/>
+
+</body></html>
